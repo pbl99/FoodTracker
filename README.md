@@ -2,6 +2,8 @@
 
 Aplicación de Sistema de Gestión de Alimentos
 
+![Estado actual del proyecto](https://imgur.com/AUvmuHP)
+
 ## Descripción
 
 FoodTracker es una aplicación diseñada para analizar alimentos , nos proporciona un buscador de alimentos con cierta información sobre ellos, también un calendario para poder hacer listas de alimentos para la compra y crear recetas.
