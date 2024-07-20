@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Sobre el proyecto</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/css/styles.css" rel="stylesheet" type="text/css">
+	<link href="/css/about.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div th:insert="~{fragments :: menu-por-defecto}"></div>
+
+
+	<!-- Hero Section -->
+	<div class="hero">
+		<div class="container">
+			<h1>About FoodTracker</h1>
+			<p>Your Ultimate Food Management Tool</p>
+		</div>
+	</div>
+
+	<!-- Logo Section -->
+	<div class="container text-center my-5">
+		<img src="/images/logoProyecto.png" class="img-fluid" alt="Cooking Image" width="200" height="200"
+			style="margin-top: -150px;">
+	</div>
+
+	<!-- About Section -->
+	<div class="container my-5 text-center">
+		<div class="row">
+			<div class="col-lg-6 mx-auto">
+				<h2 class="section-title">Our Purpose</h2>
+				<p>FoodTracker is designed to help you manage your food inventory, track nutrition, and discover new
+					recipes effortlessly. Whether you're a home cook or a professional chef, FoodTracker offers a
+					comprehensive solution to organize your ingredients and optimize your meal planning.</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Features Section -->
+	<div class="container my-5">
+		<h2 class="section-title text-center">Features</h2>
+		<div class="row text-center mt-4">
+			<div class="col-lg-4">
+				<div class="feature-icon mb-3">
+					<i class="fa fa-cutlery"></i>
+				</div>
+				<h4>Recipe Management</h4>
+				<p>Discover new recipes and save your favorites. Plan your meals and get ingredient suggestions based on
+					what's in your pantry.</p>
+			</div>
+			<div class="col-lg-4">
+				<div class="feature-icon mb-3">
+					<i class="fa fa-apple"></i>
+				</div>
+				<h4>Nutrition Tracking</h4>
+				<p>Keep track of the nutritional value of your meals. Monitor your daily intake and make informed
+					decisions about your diet.</p>
+			</div>
+			<div class="col-lg-4">
+				<div class="feature-icon mb-3">
+					<i class="fa fa-shopping-cart"></i>
+				</div>
+				<h4>Shopping Lists</h4>
+				<p>Create and manage shopping lists effortlessly. Sync your lists with your inventory to avoid buying
+					duplicate items.</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Team Section -->
+	<div class="container my-5">
+		<h2 class="section-title text-center">Meet the Team</h2>
+		<div class="row text-center mt-4">
+			<div class="col-lg-4 team-member">
+				<img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Team Member">
+				<h5 class="mt-2">John Doe</h5>
+				<p>CEO & Founder</p>
+			</div>
+			<div class="col-lg-4 team-member">
+				<img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Team Member">
+				<h5 class="mt-2">Jane Smith</h5>
+				<p>Head of Product</p>
+			</div>
+			<div class="col-lg-4 team-member">
+				<img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Team Member">
+				<h5 class="mt-2">Michael Brown</h5>
+				<p>Lead Developer</p>
+			</div>
+		</div>
+	</div>
+
+	<div th:insert="~{fragments :: footer}"></div>
+</body>
+
+</html>

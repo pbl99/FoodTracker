@@ -1,0 +1,36 @@
+.hero {
+	background-size: cover;
+	color: black;
+	height: 60vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-size: 3rem;
+	font-weight: bold;
+}
+
+.hero h1 {
+	font-size: 3rem;
+	font-weight: bold;
+}
+
+.hero p {
+	font-size: 1.5rem;
+}
+
+.section-title {
+	font-size: 2rem;
+	margin-top: 2rem;
+}
+
+.feature-icon {
+	font-size: 3rem;
+	color: #54D400;
+}
+
+.team-member img {
+	border-radius: 50%;
+	width: 150px;
+	height: 150px;
+}

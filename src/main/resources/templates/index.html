@@ -3,16 +3,46 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title></title>
+	<title>Analizador Alimentos</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="/css/alimentos.css">
 </head>
 
 <body>
-	<h2>Formulario Para Buscar Productos</h2>
-	<form action="/enviarCodigo" method="post"> <!--Producto de prueba 8420622351236 -->
-		<label for="codigoBarras">Código de Barras:</label>
-		<input type="text" id="codigoBarras" name="codigoBarras" required>
-		<button type="submit">Buscar</button>
-	</form>
+	<div th:insert="~{fragments :: menu-por-defecto}"></div>
+
+	<!--Formulario para buscar alimento por código de barras -->
+	<div class="container form-container my-5">
+		<div class="search-form">
+			<form action="/enviarCodigo" method="post" class="w-100 d-flex align-items-center">
+				<input type="text" id="codigoBarras" name="codigoBarras"
+					placeholder="Buscar producto por código de barras" required>
+				<button type="submit">Buscar</button>
+			</form>
+		</div>
+	</div>
+	<!-- Mostrar lista de productos si existe -->
+	<div th:if="${productos}">
+		<div class="container custom-container">
+			<div class="row">
+				<div class="col-md-2" th:each="producto : ${productos}">
+					<div class="card mb-3">
+						<div class="card-body">
+							<img th:src="${producto.image_front_small_url}" class="img-fluid" alt="Imagen del Producto">
+							<p class="card-title" th:text="${producto.product_name}"></p>
+							<p class="card-title" th:text="${producto.nutrition_grades}"></p>
+							<!-- <img th:src="${producto.image_front_small_url}" class="img-fluid" alt="Imagen del Producto">
+							https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:insert="~{fragments :: footer}"></div>
 </body>
 
 </html>

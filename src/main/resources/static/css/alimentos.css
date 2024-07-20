@@ -1,0 +1,127 @@
+body {
+	background-color: #F6F3F0;
+	color: #333;
+	padding-top: 60px;
+}
+
+.form-container {
+	max-width: 600px;
+	margin: auto;
+}
+
+.search-form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #333;
+	border-radius: 50px;
+	padding: 5px 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-form input[type="text"] {
+	border: none;
+	background: none;
+	color: #fff;
+	padding: 5px 10px;
+	outline: none;
+	flex-grow: 1;
+	-webkit-box-shadow: 0 0 0px 1000px #333 inset !important;
+	-moz-box-shadow: 0 0 0px 1000px #333 inset !important;
+	box-shadow: 0 0 0px 1000px #333 inset !important;
+}
+
+.search-form input[type="text"]::placeholder {
+	color: #bbb;
+}
+
+.search-form button {
+	background-color: #54D400;
+	border: none;
+	color: #fff;
+	padding: 5px 20px;
+	border-radius: 50px;
+	cursor: pointer;
+}
+
+.search-form button:hover {
+	background-color: #45b000;
+}
+
+.section-title {
+	font-size: 2rem;
+	margin-top: 2rem;
+	color: #333;
+}
+
+/* Estilos para el autocompletado */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 30px #333 inset !important;
+	-webkit-text-fill-color: #fff !important;
+}
+
+.card {
+	max-width: 200px;
+	height: 300px;
+	display: flex;
+	flex-direction: column;
+	margin: 0 -5px;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.card-body {
+	padding: 10px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.card-title {
+	font-size: 1rem;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+	width: 100%;
+	/* Asegura que no se rebase el ancho del card */
+}
+
+.card-text {
+	flex-grow: 1;
+	font-size: 0.9rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.card img {
+	max-height: 100px;
+	width: auto;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.custom-container {
+	padding: 0;
+	/* Sin padding extra en el contenedor */
+}
+
+.row {
+	margin-left: -10px;
+	/* Compensa el margen de las tarjetas */
+	margin-right: -10px;
+	/* Compensa el margen de las tarjetas */
+}
+
+.card:hover {
+	border-color: #54D400;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	border-width: 4px;
+}
