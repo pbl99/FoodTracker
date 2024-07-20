@@ -4,8 +4,6 @@ Aplicación de Sistema de Gestión de Alimentos
 
 ## Estado actual del proyecto
 
-![Estado actual del proyecto](https://i.imgur.com/ZdGQKFb.gif)
-
 ![d](https://github.com/user-attachments/assets/68fa6216-cd47-48bd-adf4-00702594a183)
 
 
