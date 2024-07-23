@@ -28,15 +28,30 @@
 		<div class="container custom-container">
 			<div class="row">
 				<div class="col-md-2" th:each="producto : ${productos}">
-					<div class="card mb-3">
-						<div class="card-body">
-							<img th:src="${producto.image_front_small_url}" class="img-fluid" alt="Imagen del Producto">
-							<p class="card-title" th:text="${producto.product_name}"></p>
-							<p class="card-title" th:text="${producto.nutrition_grades}"></p>
-							<!-- <img th:src="${producto.image_front_small_url}" class="img-fluid" alt="Imagen del Producto">
-							https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg -->
+					<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+						<div class="card mb-3">
+							<div class="card-body">
+								<img th:src="${producto.image_front_small_url}" class="img-fluid"
+									alt="Imagen del Producto">
+								<p class="card-title" th:text="${producto.product_name}"></p>
+								<img th:if="${producto.nutrition_grades == 'a'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${producto.nutrition_grades == 'b'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${producto.nutrition_grades == 'c'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${producto.nutrition_grades == 'd'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${producto.nutrition_grades == 'e'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 			</div>
 		</div>

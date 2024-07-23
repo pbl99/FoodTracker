@@ -1,6 +1,5 @@
 package com.palmen.foodtracker.controllers;
 
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.palmen.foodtracker.models.Product;
@@ -42,14 +42,19 @@ public class AlimentoController {
 	@GetMapping("/listarAlimentos")
 	public String listaAlimentos(Model model) {
 		String url = "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=Orange Juice&nutrition_grades_tags=c";
+		try {
+			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
 
-		ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
-
-		if (response != null && response.getProducts() != null) {
-			List<Product> productos = response.getProducts();
-			model.addAttribute("productos", productos); 
-		} else {
-			model.addAttribute("error", "No se encontraron productos");
+			if (response != null && response.getProducts() != null) {
+				List<Product> productos = response.getProducts();
+				model.addAttribute("productos", productos);
+			} else {
+				model.addAttribute("error", "No se encontraron productos");
+			}
+		} catch (HttpServerErrorException e) {
+			model.addAttribute("error", "Error del servidor al obtener los datos: " + e.getMessage());
+		} catch (Exception e) {
+			model.addAttribute("error", "Error inesperado: " + e.getMessage());
 		}
 		return "index";
 	}

@@ -125,3 +125,11 @@ input:-webkit-autofill:active {
 	cursor: pointer;
 	border-width: 4px;
 }
+
+/* Define the style for the Nutri-Score images */
+.nutri-score-img {
+    height: 30px;
+    width: 30px;
+    display: block;
+    margin: 10px auto; /* Center the image horizontally */
+}

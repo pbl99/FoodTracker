@@ -3,20 +3,95 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title></title>
+	<title>Ver Alimento</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/styles.css">
+	<style>
+		.img-large {
+			max-width: 100%;
+			/* Asegura que la imagen no exceda el contenedor */
+			height: auto;
+			/* Mantiene la proporción de la imagen */
+		}
+	</style>
 </head>
 
 <body>
+	<div th:insert="~{fragments :: menu-por-defecto}"></div>
+
 	<h2>Analizador de Alimentos</h2>
-	<div th:if="${product}">
-		<h2 th:text="${product.product_name}" />
-		<p th:text="${product.ingredients_text}" />
-		<img th:src="${product.image_front_url}" alt="Imagen del Producto">
+	<div class="container form-container mt-5 mb-5" th:if="${product}">
+		<div class="row">
+			<!-- Primera columna: Imagen del producto -->
+			<div class="col-md-6 my-5">
+				<img th:src="${product.image_front_url}" alt="Imagen del Producto" class="img-large">
+			</div>
+
+			<!-- Segunda columna: Información del producto -->
+			<div class="col-md-6 my-5">
+				<h3 th:text="${product.product_name}"></h3>
+				<p><strong>Código de barras:</strong> <span th:text="${product.code}"></span></p>
+				<p><strong>Origen:</strong> <span th:text="${product.origins}"></span></p>
+				<p><strong>Ingredientes:</strong> <span th:text="${product.ingredients_text}"></span></p>
+				<p><strong>Cantidad:</strong> <span th:text="${product.quantity}"></span></p>
+				<p><strong>Supermercados:</strong> <span th:text="${product.stores}"></span></p>
+				<p><strong>Marca:</strong> <span th:text="${product.brands}"></span></p>
+				<p><strong>Países:</strong> <span th:text="${product.countries}"></span></p>
+				<p><strong>Categorías:</strong> <span th:text="${product.categories}"></span></p>
+				<p><strong>prueba :</strong> <span th:text="${product.nutriments.sugars_100g}"></span></p>
+				<p><strong>Nutri Score:</strong>
+					<img th:if="${product.nutrition_grades == 'a'}"
+						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
+						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
+					<img th:if="${product.nutrition_grades == 'b'}"
+						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
+						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
+					<img th:if="${product.nutrition_grades == 'c'}"
+						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
+						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
+					<img th:if="${product.nutrition_grades == 'd'}"
+						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
+						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
+					<img th:if="${product.nutrition_grades == 'e'}"
+						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
+						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
+				</p>
+			</div>
+		</div>
+
+		<!-- Segunda fila -->
+		<div class="row">
+			<!-- Primera columna: Imagen nutricional -->
+			<div class="col-md-6 my-5">
+				<img th:src="${product.image_nutrition_url}" alt="Imagen del Producto" class="img-large">
+			</div>
+
+			<!-- Segunda columna: Tabla de información nutricional -->
+			<div class="col-md-6 my-5">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Nutriente</th>
+							<th scope="col">Cantidad</th>
+						</tr>
+					</thead>
+					<tbody>
+					<!--	<tr th:each="nutrient : ${product.nutriments}">
+							<td th:text="${nutrient.key}"></td>
+							<td th:text="${nutrient.value}"></td>
+						</tr> -->
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 
 	<div th:if="${error}">
 		<p th:text="${error}" />
 	</div>
+
+	<div th:insert="~{fragments :: footer}"></div>
 </body>
 
 </html>
