@@ -20,7 +20,7 @@ public class AlimentoController {
 	private RestTemplate restTemplate;
 
 	@GetMapping("/analizadorAlimentos")
-	public String buscarAlimentos(@RequestParam("codigoBarras") String codigoBarras, Model model) {
+	public String analizadorAlimentos(@RequestParam("codigoBarras") String codigoBarras, Model model) {
 		String url = "https://world.openfoodfacts.org/api/v2/product/" + codigoBarras + ".json";
 
 		ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
@@ -40,7 +40,7 @@ public class AlimentoController {
 	}
 
 	@GetMapping("/listarAlimentos")
-	public String listaAlimentos(Model model) {
+	public String listarAlimentos(Model model) {
 		String url = "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=Orange Juice&nutrition_grades_tags=c";
 		try {
 			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
@@ -56,6 +56,6 @@ public class AlimentoController {
 		} catch (Exception e) {
 			model.addAttribute("error", "Error inesperado: " + e.getMessage());
 		}
-		return "index";
+		return "lista-alimentos";
 	}
 }

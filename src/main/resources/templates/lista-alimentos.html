@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8" />
@@ -13,13 +13,14 @@
 <body>
 	<div th:insert="~{fragments :: menu-por-defecto}"></div>
 
-	<!--Formulario para buscar alimento por código de barras -->
+	<!-- Formulario para buscar alimento por código de barras -->
 	<div class="container form-container my-5">
 		<div class="search-form">
 			<form action="/enviarCodigo" method="post" class="w-100 d-flex align-items-center">
 				<input type="text" id="codigoBarras" name="codigoBarras"
 					placeholder="Buscar producto por código de barras" required>
 				<button type="submit">Buscar</button>
+				<input type="hidden" /> 
 			</form>
 		</div>
 	</div>

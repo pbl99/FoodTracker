@@ -72,21 +72,48 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th scope="col">Nutriente</th>
-							<th scope="col">Cantidad</th>
+							<th scope="col">Información Nutricional</th>
+							<th scope="col">Como se vende por 100 g / 100 ml</th>
 						</tr>
 					</thead>
 					<tbody>
-					<!--	<tr th:each="nutrient : ${product.nutriments}">
-							<td th:text="${nutrient.key}"></td>
-							<td th:text="${nutrient.value}"></td>
-						</tr> -->
+						<tr>
+							<td>Energía</td>
+							<td th:text="${product.nutriments.energy} + 'kj/' + ${product.nutriments.energy_kcal_100g} + 'kcal'"></td>
+						</tr>
+						<tr>
+							<td>Grasas</td>
+							<td th:text="${product.nutriments.fat_100g} + g"></td>
+						</tr>
+						<tr>
+							<td>&emsp;Grasas saturadas</td>
+							<td th:text="${product.nutriments.saturated_fat_100g} + g"></td>
+						</tr>
+						<tr>
+							<td>Hidratos de carbono</td>
+							<td th:text="${product.nutriments.carbohydrates_100g} + g"></td>
+						</tr>
+						<tr>
+							<td>&emsp;Azucares</td>
+							<td th:text="${product.nutriments.sugars_100g} + g"></td>
+						</tr>
+						<tr>
+							<td>Fibra Alimentaria</td>
+							<td th:text="${product.nutriments.fiber_100g} + g" ></td>
+						</tr>
+						<tr>
+							<td>Proteína</td>
+							<td th:text="${product.nutriments.proteins_100g} + g"></td>
+						</tr>
+						<tr>
+							<td>Sal</td>
+							<td th:text="${product.nutriments.salt_100g} + g"></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-
 	<div th:if="${error}">
 		<p th:text="${error}" />
 	</div>

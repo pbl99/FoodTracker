@@ -1,5 +1,7 @@
 package com.palmen.foodtracker.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ProductNutriment {
 
 	private double carbohydrates;
@@ -8,6 +10,8 @@ public class ProductNutriment {
 	private double carbohydrates_value;
 	private int energy;
 	private int energy_kcal;
+	
+	@JsonProperty("energy-kcal_100g") //en la api se pasa como energy-kcal_100g en java no puedo nombrar asi el atrituto
 	private int energy_kcal_100g;
 	private String energy_kcal_unit;
 	private double energy_kcal_value;
@@ -57,6 +61,8 @@ public class ProductNutriment {
 	private double sugars_100g;
 	private String sugars_unit;
 	private double sugars_value;
+	
+	
 
 	public double getCarbohydrates() {
 		return carbohydrates;
