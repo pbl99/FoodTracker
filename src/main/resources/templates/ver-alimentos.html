@@ -57,6 +57,11 @@
 						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
 				</p>
+				<form th:action="@{/guardarFavorito}" method="post">
+					<input type="hidden" name="codigoBarras" th:value="${product.code}">
+					<input type="submit" value="Guardar favorito">
+				</form>
+
 			</div>
 		</div>
 
@@ -79,7 +84,9 @@
 					<tbody>
 						<tr>
 							<td>Energía</td>
-							<td th:text="${product.nutriments.energy} + 'kj/' + ${product.nutriments.energy_kcal_100g} + 'kcal'"></td>
+							<td
+								th:text="${product.nutriments.energy} + 'kj/' + ${product.nutriments.energy_kcal_100g} + 'kcal'">
+							</td>
 						</tr>
 						<tr>
 							<td>Grasas</td>
@@ -99,7 +106,7 @@
 						</tr>
 						<tr>
 							<td>Fibra Alimentaria</td>
-							<td th:text="${product.nutriments.fiber_100g} + g" ></td>
+							<td th:text="${product.nutriments.fiber_100g} + g"></td>
 						</tr>
 						<tr>
 							<td>Proteína</td>

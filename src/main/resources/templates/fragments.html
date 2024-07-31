@@ -59,11 +59,40 @@
 							</li>
 
 							<li class="nav-item" sec:authorize="isAuthenticated()">
-								<a class="nav-link" href="/miPerfil">Mi Perfil</a>
+								<a class="nav-link" data-toggle="collapse" href="#acordeonPerfil" role="button"
+									aria-expanded="false" aria-controls="acordeonPerfil">
+									Mi Perfil
+								</a>
+								<div class="collapse" id="acordeonPerfil">
+									<div class="card card-body">
+										<a class="dropdown-item" href="/subenlace1"
+											style="color: #343A40; background-color: transparent; border: none; text-decoration: none;"
+											onmouseover="this.style.backgroundColor='#E9ECEF';"
+											onmouseout="this.style.backgroundColor='transparent';"
+											onfocus="this.style.backgroundColor='transparent';"
+											onblur="this.style.backgroundColor='transparent';">Mi calendario</a>
+										<a class="dropdown-item" href="/productosFavoritos"
+											style="color: #343A40; background-color: transparent; border: none; text-decoration: none;"
+											onmouseover="this.style.backgroundColor='#E9ECEF';"
+											onmouseout="this.style.backgroundColor='transparent';"
+											onfocus="this.style.backgroundColor='transparent';"
+											onblur="this.style.backgroundColor='transparent';">Mis productos
+											favoritos</a>
+										<a class="dropdown-item" href="/subenlace3"
+											style="color: #343A40; background-color: transparent; border: none; text-decoration: none;"
+											onmouseover="this.style.backgroundColor='#E9ECEF';"
+											onmouseout="this.style.backgroundColor='transparent';"
+											onfocus="this.style.backgroundColor='transparent';"
+											onblur="this.style.backgroundColor='transparent';">Mis datos</a>
+									</div>
+								</div>
 							</li>
 							<li class="nav-item" sec:authorize="isAuthenticated()">
 								<form th:action="@{/logout}" method="post">
-									<input type="submit" value="Cerrar Sesión" class="btn btn-link" style="text-decoration: none; cursor: pointer; color: #8D8F90;" onmouseover="this.style.color='#C6C6C7'" onmouseout="this.style.color='#8D8F90'">
+									<input type="submit" value="Cerrar Sesión" class="btn btn-link"
+										style="text-decoration: none; cursor: pointer; color: #8D8F90;"
+										onmouseover="this.style.color='#C6C6C7'"
+										onmouseout="this.style.color='#8D8F90'">
 								</form>
 							</li>
 							<li class="nav-item" sec:authorize="!isAuthenticated()">
@@ -74,12 +103,14 @@
 				</div>
 			</nav>
 		</div>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</nav>
 	<!-- footer.html -->
 	<footer th:fragment="footer" class="bg-dark text-white text-center py-3">
 		<p>&copy; 2024 FoodTracker. All Rights Reserved.</p>
 	</footer>
-
 </body>
 
 </html>

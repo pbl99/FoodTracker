@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Productos Favoritos</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="/css/alimentos.css">
+</head>
+
+<body>
+	<div th:insert="~{fragments :: menu-por-defecto}"></div>
+
+	<!-- Formulario para buscar alimento por código de barras -->
+	<div class="container form-container my-5">
+		<div class="search-form">
+			<form action="/enviarCodigo" method="post" class="w-100 d-flex align-items-center">
+				<input type="text" id="codigoBarras" name="codigoBarras"
+					placeholder="Buscar producto por código de barras" required>
+				<button type="submit">Buscar</button>
+				<input type="hidden" />
+			</form>
+		</div>
+	</div>
+	<!-- Mostrar lista de productos si existe -->
+	<div th:if="${productosFavoritos}">
+		<div class="container custom-container">
+			<div class="row">
+				<div class="col-md-2" th:each="favorito : ${productosFavoritos}">
+					<a th:href="@{/analizadorAlimentos?codigoBarras={codigoBarras}(codigoBarras=${favorito.product.code})}">
+						<div class="card mb-3">
+							<div class="card-body">
+								<img th:src="${favorito.product.image_front_small_url}" class="img-fluid"
+									alt="Imagen del Producto">
+								<p class="card-title" th:text="${favorito.product.product_name}"></p>
+								<img th:if="${favorito.product.nutrition_grades == 'a'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${favorito.product.nutrition_grades == 'b'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${favorito.product.nutrition_grades == 'c'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${favorito.product.nutrition_grades == 'd'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:if="${favorito.product.nutrition_grades == 'e'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:insert="~{fragments :: footer}"></div>
+</body>
+
+</html>

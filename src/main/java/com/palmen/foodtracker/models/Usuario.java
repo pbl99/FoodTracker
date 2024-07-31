@@ -27,6 +27,10 @@ public class Usuario {
 	)
 	private Set<Rol> roles = new HashSet<>();
 
+	@ManyToMany
+	@JoinTable(name = "usuarios_productos_favoritos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "codigo_barras"))
+	private Set<ProductoFavorito> productosFavoritos = new HashSet<>();
+
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -65,6 +69,14 @@ public class Usuario {
 
 	public void setRoles(Set<Rol> roles) {
 		this.roles = roles;
+	}
+
+	public Set<ProductoFavorito> getProductosFavoritos() {
+		return productosFavoritos;
+	}
+
+	public void setProductosFavoritos(Set<ProductoFavorito> productosFavoritos) {
+		this.productosFavoritos = productosFavoritos;
 	}
 
 }
