@@ -75,6 +75,9 @@ spring.datasource.password=tu_contraseña
 spring.jpa.hibernate.ddl-auto=update
 ```
 
+## APIs Utilizadas
+- **[OpenFoodFacts API](https://world.openfoodfacts.org):** Este proyecto utiliza la API de OpenFoodFacts para obtener información nutricional y detalles de los productos alimenticios. OpenFoodFacts es una base de datos abierta de productos alimenticios de todo el mundo.
+
 ## Contribuir
 Si deseas contribuir a este proyecto, por favor sigue estos pasos:
 
@@ -82,7 +85,11 @@ Si deseas contribuir a este proyecto, por favor sigue estos pasos:
 2. Crea una nueva rama (git checkout -b feature/nueva-funcionalidad)
 3. Realiza tus cambios y haz commit (git commit -am 'Añadir nueva funcionalidad')
 4. Push a la rama (git push origin feature/nueva-funcionalidad)
-5. Crea un Pull Request
-   
+5. Crea un Pull Request 
+
+## Créditos
+- **Header Template:** El header utilizado en este proyecto se basa en una plantilla creada por [Juan86](https://bootsnipp.com/snippets/Q04ZX).
+- **Login/Register Template:** El formulario de inicio de sesión y de registro está basado en una plantilla diseñada por [irwanhanafy](https://bootsnipp.com/snippets/emRPM).
+
 ## Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
