@@ -10,4 +10,9 @@ public class UsuarioController {
 	public String miPerfil() {
 		return "mi-perfil";
 	}
+
+	@GetMapping("/miCalendario")
+	public String miCalendario() {
+		return "mi-calendario";
+	}
 }

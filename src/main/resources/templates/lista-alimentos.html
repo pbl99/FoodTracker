@@ -20,21 +20,60 @@
 				<input type="text" id="codigoBarras" name="codigoBarras"
 					placeholder="Buscar producto por código de barras" required>
 				<button type="submit">Buscar</button>
-				<input type="hidden" /> 
+				<input type="hidden" />
 			</form>
 		</div>
 	</div>
+
+
+	<div class="container form-container my-5">
+		<div class="row">
+			<!-- Formulario para filtrar por categoría -->
+			<div class="col-md-6 mb-3">
+				<form th:action="@{/filtrarPorCategoria}" method="post">
+					<div class="form-group">
+						<label for="categoriaSelect">Seleccionar Categoría:</label>
+						<select id="categoriaSelect" class="form-control" name="categoria">
+							<option value="">Todas</option>
+							<option value="fruits">Frutas</option>
+							<option value="vegetables">Verduras</option>
+							<option value="beverages">Bebidas</option>
+						</select>
+						<button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+					</div>
+				</form>
+			</div>
+
+			<!-- Formulario para filtrar por tienda -->
+			<div class="col-md-6 mb-3">
+				<form th:action="@{/filtrarPorTienda}" method="post">
+					<div class="form-group">
+						<label for="tiendaSelect">Seleccionar Tienda:</label>
+						<select id="tiendaSelect" class="form-control" name="tienda">
+							<option value="">Todas</option>
+							<option value="mercadona">Mercadona</option>
+							<option value="carrefour">Carrefour</option>
+							<option value="lidl">Lidl</option>
+							<!-- Añade más tiendas predefinidas aquí -->
+						</select>
+						<button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- Mostrar lista de productos si existe -->
 	<div th:if="${productos}">
 		<div class="container custom-container">
 			<div class="row">
 				<div class="col-md-2" th:each="producto : ${productos}">
 					<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
-						<div class="card mb-3">
-							<div class="card-body">
+						<div class="product-card mb-3">
+							<div class="product-card-body">
 								<img th:src="${producto.image_front_small_url}" class="img-fluid"
 									alt="Imagen del Producto">
-								<p class="card-title" th:text="${producto.product_name}"></p>
+								<p class="product-card-title" th:text="${producto.product_name}"></p>
 								<img th:if="${producto.nutrition_grades == 'a'}"
 									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 									class="nutri-score-img" alt="Nutri-Score">

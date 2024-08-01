@@ -30,11 +30,11 @@
 			<div class="row">
 				<div class="col-md-2" th:each="favorito : ${productosFavoritos}">
 					<a th:href="@{/analizadorAlimentos?codigoBarras={codigoBarras}(codigoBarras=${favorito.product.code})}">
-						<div class="card mb-3">
-							<div class="card-body">
+						<div class="product-card mb-3">
+							<div class="product-card-body">
 								<img th:src="${favorito.product.image_front_small_url}" class="img-fluid"
 									alt="Imagen del Producto">
-								<p class="card-title" th:text="${favorito.product.product_name}"></p>
+								<p class="product-card-title" th:text="${favorito.product.product_name}"></p>
 								<img th:if="${favorito.product.nutrition_grades == 'a'}"
 									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 									class="nutri-score-img" alt="Nutri-Score">
