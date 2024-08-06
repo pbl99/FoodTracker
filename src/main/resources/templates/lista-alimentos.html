@@ -8,6 +8,32 @@
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="/css/alimentos.css">
+	<style>
+		.pagination {
+			display: flex;
+			justify-content: center;
+			margin: 20px 0;
+		}
+
+		.pagination__link {
+			padding: 10px 15px;
+			margin: 0 5px;
+			border: 1px solid #ddd;
+			text-decoration: none;
+			color: #333;
+			border-radius: 4px;
+		}
+
+		.pagination__link--active {
+			background-color: #54D400;
+			color: #fff;
+		}
+
+		.pagination__link--disabled {
+			color: #ccc;
+			pointer-events: none;
+		}
+	</style>
 </head>
 
 <body>
@@ -71,8 +97,8 @@
 					<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
 						<div class="product-card mb-3">
 							<div class="product-card-body">
-								<img th:src="${producto.image_front_small_url}" class="img-fluid"
-									alt="Imagen del Producto">
+								<img th:src="${producto.imageUrl}" class="img-fluid" alt="Imagen del Producto"
+									onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
 								<p class="product-card-title" th:text="${producto.product_name}"></p>
 								<img th:if="${producto.nutrition_grades == 'a'}"
 									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
@@ -96,7 +122,16 @@
 			</div>
 		</div>
 	</div>
+	<!-- Controles de paginación -->
+	<div class="pagination">
+		<!-- Enlace "Anterior" -->
+		<a th:href="@{/listarAlimentos(page=${currentPage - 1})}" class="pagination__link pagination__link--previous"
+			th:text="'Anterior'" th:classappend="${currentPage == 1 ? 'pagination__link--disabled' : ''}"></a>
 
+		<!-- Enlace "Siguiente" -->
+		<a th:href="@{/listarAlimentos(page=${currentPage + 1})}" class="pagination__link pagination__link--next"
+			th:text="'Siguiente'" th:classappend="${currentPage == totalPages ? 'pagination__link--disabled' : ''}"></a>
+	</div>
 	<div th:insert="~{fragments :: footer}"></div>
 </body>
 

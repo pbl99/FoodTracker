@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.palmen.foodtracker.models.Product;
-import com.palmen.foodtracker.models.ProductResponse;
 import com.palmen.foodtracker.models.ProductoFavorito;
 import com.palmen.foodtracker.models.Usuario;
+import com.palmen.foodtracker.models.api.Product;
+import com.palmen.foodtracker.models.api.ProductResponse;
 import com.palmen.foodtracker.services.IProductoFavoritoService;
 import com.palmen.foodtracker.services.IUsuarioService;
 

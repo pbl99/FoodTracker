@@ -1,4 +1,4 @@
-package com.palmen.foodtracker.models;
+package com.palmen.foodtracker.models.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

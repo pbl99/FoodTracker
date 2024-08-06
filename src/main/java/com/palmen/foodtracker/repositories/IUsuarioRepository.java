@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.palmen.foodtracker.models.Usuario;
 
 @Repository
-public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	 Optional<Usuario> findByNombreUsuario(String nombreUsuario);
 }

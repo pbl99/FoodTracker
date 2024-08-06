@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.palmen.foodtracker.models.Product;
-import com.palmen.foodtracker.models.ProductResponse;
+import com.palmen.foodtracker.models.api.Product;
+import com.palmen.foodtracker.models.api.ProductResponse;
 
 @Controller
 public class AlimentoController {
@@ -40,14 +40,18 @@ public class AlimentoController {
 	}
 
 	@GetMapping("/listarAlimentos")
-	public String listarAlimentos(Model model) {
-		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&stores_tags=mercadona";
+	public String listarAlimentos(@RequestParam(defaultValue = "1") int page, Model model) {
+		String url = String.format(
+				"https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&stores_tags=mercadona&page=%d&page_size=48",
+				page);
 		try {
 			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
-
 			if (response != null && response.getProducts() != null) {
 				List<Product> productos = response.getProducts();
 				model.addAttribute("productos", productos);
+				model.addAttribute("currentPage", page);
+				model.addAttribute("totalPages", response.getTotalPages() / 48); // Ajusta según tu lógica de total de
+																			// páginas
 			} else {
 				model.addAttribute("error", "No se encontraron productos");
 			}
@@ -64,7 +68,7 @@ public class AlimentoController {
 		// String url =
 		// "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=Orange
 		// Juice&nutrition_grades_tags=c";
-		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&stores_tags="
+		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&page_size=48&stores_tags="
 				+ tiendaSeleccionada;
 		try {
 			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
@@ -88,7 +92,7 @@ public class AlimentoController {
 		// String url =
 		// "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=Orange
 		// Juice&nutrition_grades_tags=c";
-		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&categories_tags_en="
+		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&page_size=48&categories_tags_en="
 				+ categoriaSeleccionada;
 		try {
 			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
@@ -106,4 +110,5 @@ public class AlimentoController {
 		}
 		return "lista-alimentos";
 	}
+
 }

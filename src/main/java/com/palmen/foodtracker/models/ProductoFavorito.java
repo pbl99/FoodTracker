@@ -3,6 +3,8 @@ package com.palmen.foodtracker.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.palmen.foodtracker.models.api.Product;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

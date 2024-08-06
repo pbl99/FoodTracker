@@ -7,72 +7,7 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/css/styles.css" rel="stylesheet" type="text/css">
-	<style>
-		.calendar-container {
-			margin-top: 100px;
-		}
-
-		.card {
-			margin-bottom: 20px;
-			/* Espacio entre tarjetas */
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			background-color: #f8f9fa;
-		}
-
-		.card-header h5 {
-			margin-bottom: 0;
-		}
-
-		.card-body {
-			display: flex;
-			flex-direction: column;
-			padding: 15px;
-		}
-
-		.card-body .form-container {
-			display: flex;
-			flex-direction: row;
-			align-items: flex-start;
-			margin-bottom: 15px;
-			/* Espacio entre el formulario y las imágenes */
-		}
-
-		.card-body textarea {
-			width: 80%;
-			/* Ocupa el 80% del ancho del contenedor */
-			resize: none;
-			height: 70px;
-			margin-right: 10px;
-			/* Espacio entre el textarea y los botones */
-		}
-
-		.card-body .controls {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			width: 20%;
-			/* Ocupa el 20% del ancho del contenedor */
-		}
-
-		.card-body .controls button {
-			margin-right: 10px;
-			/* Espacio entre botones */
-		}
-
-		.card-body .product-images {
-			display: flex;
-			flex-wrap: wrap;
-			/* Permite que las imágenes se ajusten a varias líneas si es necesario */
-			gap: 10px;
-			/* Espacio entre imágenes */
-		}
-
-		.card-body .product-images img {
-			max-width: 80px;
-			height: auto;
-		}
-	</style>
+	<link href="/css/calendario.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -84,23 +19,40 @@
 			<div class="card">
 				<div class="card-header" id="headingOne">
 					<h5 class="mb-0">
-						<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
-							aria-expanded="true" aria-controls="collapseOne">
+						<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne"
+							aria-expanded="false" aria-controls="collapseOne">
 							Lunes
 						</button>
 					</h5>
 				</div>
-				<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-lunes">
 							<div class="form-container">
-								<textarea name="monday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Lunes'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Lunes']}" th:if="${listasCompra['Lunes'] != null}"></p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Lunes" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-lunes">
+							<input type="hidden" name="dia" value="Lunes" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-lunes" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-lunes" type="submit" class="btn btn-secondary" value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">
@@ -122,15 +74,32 @@
 				</div>
 				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-martes">
 							<div class="form-container">
-								<textarea name="tuesday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Martes'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Martes']}" th:if="${listasCompra['Martes'] != null}"></p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Martes" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-martes">
+							<input type="hidden" name="dia" value="Martes" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-martes" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-martes" type="submit" class="btn btn-secondary" value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">
@@ -152,15 +121,34 @@
 				</div>
 				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-miercoles">
 							<div class="form-container">
-								<textarea name="wednesday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Miércoles'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Miércoles']}" th:if="${listasCompra['Miércoles'] != null}">
+								</p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Miércoles" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-miercoles">
+							<input type="hidden" name="dia" value="Miércoles" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-miercoles" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-miercoles" type="submit" class="btn btn-secondary"
+								value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">
@@ -182,15 +170,32 @@
 				</div>
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-jueves">
 							<div class="form-container">
-								<textarea name="thursday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Jueves'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Jueves']}" th:if="${listasCompra['Jueves'] != null}"></p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Jueves" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-jueves">
+							<input type="hidden" name="dia" value="Jueves" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-jueves" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-jueves" type="submit" class="btn btn-secondary" value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">
@@ -212,15 +217,33 @@
 				</div>
 				<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-viernes">
 							<div class="form-container">
-								<textarea name="friday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Viernes'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Viernes']}" th:if="${listasCompra['Viernes'] != null}"></p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Viernes" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-viernes">
+							<input type="hidden" name="dia" value="Viernes" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-viernes" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-viernes" type="submit" class="btn btn-secondary"
+								value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">
@@ -242,15 +265,32 @@
 				</div>
 				<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-sabado">
 							<div class="form-container">
-								<textarea name="saturday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Sábado'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Sábado']}" th:if="${listasCompra['Sábado'] != null}"></p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Sábado" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-sabado">
+							<input type="hidden" name="dia" value="Sábado" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-sabado" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-sabado" type="submit" class="btn btn-secondary" value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">
@@ -272,15 +312,33 @@
 				</div>
 				<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
 					<div class="card-body">
-						<form action="/submit" method="post">
+						<!-- Formulario para guardar la lista -->
+						<form th:action="@{/guardarLista}" method="post" id="save-form-domingo">
 							<div class="form-container">
-								<textarea name="sunday-list" placeholder="Lista de alimentos..."></textarea>
-								<div class="controls">
-									<button type="submit" class="btn btn-primary">Guardar</button>
-									<button type="button" class="btn btn-secondary">Editar</button>
-								</div>
+								<!-- Mostrar textarea si la lista es nula -->
+								<textarea name="lista" placeholder="Lista de alimentos..."
+									th:if="${listasCompra['Domingo'] == null}"></textarea>
+								<!-- Mostrar texto si la lista no es nula -->
+								<p th:text="${listasCompra['Domingo']}" th:if="${listasCompra['Domingo'] != null}"></p>
+
+								<!-- Campo oculto para el día de la semana y el ID del usuario -->
+								<input type="hidden" name="dia" value="Domingo" />
+								<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
 							</div>
 						</form>
+
+						<!-- Formulario separado para restablecer la lista -->
+						<form th:action="@{/restablecerLista}" method="post" id="reset-form-domingo">
+							<input type="hidden" name="dia" value="Domingo" />
+							<input type="hidden" name="usuarioId" th:value="${usuario.id}" />
+						</form>
+
+						<!-- Contenedor para los botones -->
+						<div class="form-controls">
+							<input form="save-form-domingo" type="submit" class="btn btn-primary" value="Guardar">
+							<input form="reset-form-domingo" type="submit" class="btn btn-secondary"
+								value="Restablecer">
+						</div>
 						<!-- Imágenes de productos -->
 						<div class="product-images">
 							<img src="http://example.com/product-image1.jpg" alt="Producto 1">

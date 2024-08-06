@@ -1,0 +1,85 @@
+.calendar-container {
+	margin-top: 100px;
+}
+
+.card {
+	margin-bottom: 20px;
+	/* Espacio entre tarjetas */
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #f8f9fa;
+}
+
+.card-header h5 {
+	margin-bottom: 0;
+}
+
+.card-body {
+	display: flex;
+	flex-direction: column;
+	padding: 15px;
+}
+
+.card-body .form-container {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	margin-bottom: 15px;
+	/* Espacio entre el formulario y las imágenes */
+}
+
+.card-body textarea {
+	width: 80%;
+	/* Ocupa el 80% del ancho del contenedor */
+	resize: none;
+	height: 70px;
+	margin-right: 10px;
+	/* Espacio entre el textarea y los botones */
+}
+
+.card-body .controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 20%;
+	/* Ocupa el 20% del ancho del contenedor */
+}
+
+.card-body .controls button {
+	margin-right: 10px;
+	/* Espacio entre botones */
+}
+
+.card-body .product-images {
+	display: flex;
+	flex-wrap: wrap;
+	/* Permite que las imágenes se ajusten a varias líneas si es necesario */
+	gap: 10px;
+	/* Espacio entre imágenes */
+}
+
+.card-body .product-images img {
+	max-width: 80px;
+	height: auto;
+}
+
+
+/* Contenedor para los botones dentro de los formularios */
+.form-controls {
+	/* Alinea los botones al final del contenedor */
+	gap: 5px;
+	/* Espacio entre los botones */
+	position: absolute;
+	top: 5;
+	right: 0;
+}
+
+/* Ajusta el ancho del textarea */
+textarea {
+	width: 100%;
+	/* Ajusta al contenedor */
+	min-height: 100px;
+	/* Altura mínima */
+	box-sizing: border-box;
+	/* Incluye padding y border en el ancho */
+}

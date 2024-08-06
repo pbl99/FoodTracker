@@ -10,6 +10,8 @@ public interface IUsuarioService {
 
 	void save(Usuario usuario);
 	
-	void guardarProductoFavorito(Integer usuarioId, String codigoBarras);
+	void guardarProductoFavorito(Long usuarioId, String codigoBarras);
+	
+	Optional<Usuario> findById(Long id);
 	
 }

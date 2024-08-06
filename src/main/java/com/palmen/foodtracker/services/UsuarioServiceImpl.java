@@ -45,7 +45,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Transactional
-	public void guardarProductoFavorito(Integer usuarioId, String codigoBarras) {
+	public void guardarProductoFavorito(Long usuarioId, String codigoBarras) {
 		Usuario usuario = usuarioRepository.findById(usuarioId)
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 		ProductoFavorito productoFavorito = productoFavoritoRepository.findById(codigoBarras)
@@ -58,6 +58,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Transactional(readOnly = true)
 	public Optional<Usuario> findByNombreUsuario(String nombreUsuario) {
 		return usuarioRepository.findByNombreUsuario(nombreUsuario);
+	}
+
+	@Override
+	public Optional<Usuario> findById(Long id) {
+		return usuarioRepository.findById(id);
 	}
 
 }

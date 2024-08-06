@@ -1,4 +1,6 @@
-package com.palmen.foodtracker.models;
+package com.palmen.foodtracker.models.api;
+
+import com.palmen.foodtracker.models.api.images.SelectedImages;
 
 public class Product {
 
@@ -17,6 +19,7 @@ public class Product {
 	private String categories;
 	private String countries;
 	private ProductNutriment nutriments;
+	private SelectedImages selected_images;
 
 	public String getCode() {
 		return code;
@@ -137,6 +140,38 @@ public class Product {
 	public void setNutriments(ProductNutriment nutriments) {
 		this.nutriments = nutriments;
 	}
-	
+
+	public SelectedImages getSelected_images() {
+		return selected_images;
+	}
+
+	public void setSelected_images(SelectedImages selected_images) {
+		this.selected_images = selected_images;
+	}
+
+	public String getImageUrl() {
+		if (selected_images != null && selected_images.getFront() != null
+				&& selected_images.getFront().getSmall() != null) {
+
+			// Intentar cargar la imagen en el orden: es, en, de, fr
+			String url = selected_images.getFront().getSmall().getEs();
+			if (url != null) {
+				return url;
+			}
+			url = selected_images.getFront().getSmall().getEn();
+			if (url != null) {
+				return url;
+			}
+			url = selected_images.getFront().getSmall().getDe();
+			if (url != null) {
+				return url;
+			}
+			url = selected_images.getFront().getSmall().getFr();
+			if (url != null) {
+				return url;
+			}
+		}
+		return "/images/imgproductnotavailable.png";
+	}
 
 }

@@ -11,7 +11,7 @@ public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "nombre_usuario")
 	private String nombreUsuario;
@@ -30,6 +30,9 @@ public class Usuario {
 	@ManyToMany
 	@JoinTable(name = "usuarios_productos_favoritos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "codigo_barras"))
 	private Set<ProductoFavorito> productosFavoritos = new HashSet<>();
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<UsuarioListaCompra> listasCompra;
 
 	public String getNombreUsuario() {
 		return nombreUsuario;
@@ -55,11 +58,11 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -77,6 +80,14 @@ public class Usuario {
 
 	public void setProductosFavoritos(Set<ProductoFavorito> productosFavoritos) {
 		this.productosFavoritos = productosFavoritos;
+	}
+
+	public Set<UsuarioListaCompra> getListasCompra() {
+		return listasCompra;
+	}
+
+	public void setListasCompra(Set<UsuarioListaCompra> listasCompra) {
+		this.listasCompra = listasCompra;
 	}
 
 }
