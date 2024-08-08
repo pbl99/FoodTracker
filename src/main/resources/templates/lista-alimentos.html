@@ -54,36 +54,29 @@
 
 	<div class="container form-container my-5">
 		<div class="row">
-			<!-- Formulario para filtrar por categoría -->
-			<div class="col-md-6 mb-3">
-				<form th:action="@{/filtrarPorCategoria}" method="post">
+			<!-- Formulario combinado para filtrar por categoría y tienda -->
+			<div class="col-md-12 mb-3">
+				<form th:action="@{/filtrarAlimentos}" method="post">
 					<div class="form-group">
 						<label for="categoriaSelect">Seleccionar Categoría:</label>
 						<select id="categoriaSelect" class="form-control" name="categoria">
-							<option value="">Todas</option>
-							<option value="fruits">Frutas</option>
-							<option value="vegetables">Verduras</option>
-							<option value="beverages">Bebidas</option>
+							<option value="" th:selected="${selectedCategoria == ''}">Todas</option>
+							<option value="fruits" th:selected="${selectedCategoria == 'fruits'}">Frutas</option>
+							<option value="vegetables" th:selected="${selectedCategoria == 'vegetables'}">Verduras
+							</option>
+							<option value="beverages" th:selected="${selectedCategoria == 'beverages'}">Bebidas</option>
 						</select>
-						<button type="submit" class="btn btn-primary mt-2">Filtrar</button>
 					</div>
-				</form>
-			</div>
-
-			<!-- Formulario para filtrar por tienda -->
-			<div class="col-md-6 mb-3">
-				<form th:action="@{/filtrarPorTienda}" method="post">
 					<div class="form-group">
 						<label for="tiendaSelect">Seleccionar Tienda:</label>
 						<select id="tiendaSelect" class="form-control" name="tienda">
-							<option value="">Todas</option>
-							<option value="mercadona">Mercadona</option>
-							<option value="carrefour">Carrefour</option>
-							<option value="lidl">Lidl</option>
-							<!-- Añade más tiendas predefinidas aquí -->
+							<option value="" th:selected="${selectedTienda == ''}">Todas</option>
+							<option value="mercadona" th:selected="${selectedTienda == 'mercadona'}">Mercadona</option>
+							<option value="carrefour" th:selected="${selectedTienda == 'carrefour'}">Carrefour</option>
+							<option value="lidl" th:selected="${selectedTienda == 'lidl'}">Lidl</option>
 						</select>
-						<button type="submit" class="btn btn-primary mt-2">Filtrar</button>
 					</div>
+					<button type="submit" class="btn btn-primary mt-2">Filtrar</button>
 				</form>
 			</div>
 		</div>
@@ -125,12 +118,14 @@
 	<!-- Controles de paginación -->
 	<div class="pagination">
 		<!-- Enlace "Anterior" -->
-		<a th:href="@{/listarAlimentos(page=${currentPage - 1})}" class="pagination__link pagination__link--previous"
-			th:text="'Anterior'" th:classappend="${currentPage == 1 ? 'pagination__link--disabled' : ''}"></a>
+		<a th:href="@{/listarAlimentos(page=${currentPage - 1}, categoria=${selectedCategoria}, tienda=${selectedTienda})}"
+			class="pagination__link pagination__link--previous" th:text="'Anterior'"
+			th:classappend="${currentPage == 1 ? 'pagination__link--disabled' : ''}"></a>
 
 		<!-- Enlace "Siguiente" -->
-		<a th:href="@{/listarAlimentos(page=${currentPage + 1})}" class="pagination__link pagination__link--next"
-			th:text="'Siguiente'" th:classappend="${currentPage == totalPages ? 'pagination__link--disabled' : ''}"></a>
+		<a th:href="@{/listarAlimentos(page=${currentPage + 1}, categoria=${selectedCategoria}, tienda=${selectedTienda})}"
+			class="pagination__link pagination__link--next" th:text="'Siguiente'"
+			th:classappend="${currentPage == totalPages ? 'pagination__link--disabled' : ''}"></a>
 	</div>
 	<div th:insert="~{fragments :: footer}"></div>
 </body>

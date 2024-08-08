@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.palmen.foodtracker.models.Usuario;
 import com.palmen.foodtracker.models.UsuarioListaCompra;
+import com.palmen.foodtracker.models.UsuarioListaCompraItem;
+import com.palmen.foodtracker.services.IUsuarioListaCompraItemService;
 import com.palmen.foodtracker.services.IUsuarioListaCompraService;
 import com.palmen.foodtracker.services.IUsuarioService;
 
@@ -17,6 +20,9 @@ public class UsuarioListaCompraController {
 
 	@Autowired
 	private IUsuarioListaCompraService usuarioListaCompraService;
+
+	@Autowired
+	private IUsuarioListaCompraItemService usuarioListaCompraItemService;
 
 	@Autowired
 	private IUsuarioService usuarioService;
@@ -57,4 +63,15 @@ public class UsuarioListaCompraController {
 
 		return "redirect:/miCalendario";
 	}
+	
+	
+	@PostMapping("/eliminarProducto")
+	public String eliminarProducto() {
+		
+		return "redirect:/miCalendario";
+	}
+
+	
+	
+	
 }

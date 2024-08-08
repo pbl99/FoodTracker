@@ -1,5 +1,6 @@
 package com.palmen.foodtracker.models;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,7 +33,10 @@ public class Usuario {
 	private Set<ProductoFavorito> productosFavoritos = new HashSet<>();
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<UsuarioListaCompra> listasCompra;
+	private Set<UsuarioListaCompra> listasCompra = new HashSet<>();
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<UsuarioListaCompraItem> listaCompraItems = new HashSet<>();
 
 	public String getNombreUsuario() {
 		return nombreUsuario;
@@ -88,6 +92,14 @@ public class Usuario {
 
 	public void setListasCompra(Set<UsuarioListaCompra> listasCompra) {
 		this.listasCompra = listasCompra;
+	}
+
+	public Set<UsuarioListaCompraItem> getListaCompraItems() {
+		return listaCompraItems;
+	}
+
+	public void setListaCompraItems(Set<UsuarioListaCompraItem> listaCompraItems) {
+		this.listaCompraItems = listaCompraItems;
 	}
 
 }

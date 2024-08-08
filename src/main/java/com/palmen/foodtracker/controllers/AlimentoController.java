@@ -1,7 +1,12 @@
 package com.palmen.foodtracker.controllers;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,28 +15,62 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.palmen.foodtracker.models.Usuario;
 import com.palmen.foodtracker.models.api.Product;
 import com.palmen.foodtracker.models.api.ProductResponse;
+import com.palmen.foodtracker.repositories.IUsuarioRepository;
 
 @Controller
 public class AlimentoController {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private IUsuarioRepository usuarioRepository;
 
 	@GetMapping("/analizadorAlimentos")
 	public String analizadorAlimentos(@RequestParam("codigoBarras") String codigoBarras, Model model) {
-		String url = "https://world.openfoodfacts.org/api/v2/product/" + codigoBarras + ".json";
+		// Obtener el usuario autenticado
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = null;
 
-		ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
-
-		if (response != null && response.getProduct() != null) {
-			model.addAttribute("product", response.getProduct());
-		} else {
-			model.addAttribute("error", "Producto no encontrado");
+		if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			username = userDetails.getUsername();
 		}
 
-		return "ver-alimentos";
+		// Buscar el ID del usuario usando el nombre de usuario
+		if (username != null) {
+			Optional<Usuario> usuarioOpt = usuarioRepository.findByNombreUsuario(username); // Asegúrate de tener este método en tu
+				
+			Usuario usuario = new Usuario();
+			if(usuarioOpt.isPresent()) {
+				usuario = usuarioOpt.get();
+			}
+			
+			if (usuario != null) {
+				Long usuarioId = usuario.getId();
+				model.addAttribute("usuarioId", usuarioId);
+
+				String url = "https://world.openfoodfacts.org/api/v2/product/" + codigoBarras + ".json";
+				ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
+
+				if (response != null && response.getProduct() != null) {
+					model.addAttribute("product", response.getProduct());
+				} else {
+					model.addAttribute("error", "Producto no encontrado");
+				}
+
+				return "ver-alimentos";
+			} else {
+				model.addAttribute("error", "Usuario no encontrado");
+				return "error";
+			}
+		} else {
+			model.addAttribute("error", "Usuario no autenticado");
+			return "error";
+		}
 	}
 
 	@PostMapping("/enviarCodigo")
@@ -40,18 +79,28 @@ public class AlimentoController {
 	}
 
 	@GetMapping("/listarAlimentos")
-	public String listarAlimentos(@RequestParam(defaultValue = "1") int page, Model model) {
-		String url = String.format(
-				"https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&stores_tags=mercadona&page=%d&page_size=48",
-				page);
+	public String listarAlimentos(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(required = false) String categoria, @RequestParam(required = false) String tienda,
+			Model model) {
+		StringBuilder url = new StringBuilder("https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain");
+
+		if (categoria != null && !categoria.isEmpty()) {
+			url.append("&categories_tags=").append(categoria);
+		}
+		if (tienda != null && !tienda.isEmpty()) {
+			url.append("&stores_tags=").append(tienda);
+		}
+
+		url.append("&page=").append(page).append("&page_size=48");
+
 		try {
-			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
+			ProductResponse response = restTemplate.getForObject(url.toString(), ProductResponse.class);
+
 			if (response != null && response.getProducts() != null) {
 				List<Product> productos = response.getProducts();
 				model.addAttribute("productos", productos);
 				model.addAttribute("currentPage", page);
-				model.addAttribute("totalPages", response.getTotalPages() / 48); // Ajusta según tu lógica de total de
-																			// páginas
+				model.addAttribute("totalPages", (response.getTotalPages()) / 48);
 			} else {
 				model.addAttribute("error", "No se encontraron productos");
 			}
@@ -60,22 +109,35 @@ public class AlimentoController {
 		} catch (Exception e) {
 			model.addAttribute("error", "Error inesperado: " + e.getMessage());
 		}
+
+		model.addAttribute("selectedCategoria", categoria);
+		model.addAttribute("selectedTienda", tienda);
+
 		return "lista-alimentos";
 	}
 
-	@PostMapping("/filtrarPorTienda")
-	public String filtrarAlimentosPorTienda(@RequestParam("tienda") String tiendaSeleccionada, Model model) {
-		// String url =
-		// "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=Orange
-		// Juice&nutrition_grades_tags=c";
-		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&page_size=48&stores_tags="
-				+ tiendaSeleccionada;
+	@PostMapping("/filtrarAlimentos")
+	public String filtrarAlimentos(@RequestParam(required = false) String categoria,
+			@RequestParam(required = false) String tienda, @RequestParam(defaultValue = "1") int page, Model model) {
+		StringBuilder url = new StringBuilder("https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain");
+
+		if (categoria != null && !categoria.isEmpty()) {
+			url.append("&categories_tags=").append(categoria);
+		}
+		if (tienda != null && !tienda.isEmpty()) {
+			url.append("&stores_tags=").append(tienda);
+		}
+
+		url.append("&page=").append(page).append("&page_size=48");
+
 		try {
-			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
+			ProductResponse response = restTemplate.getForObject(url.toString(), ProductResponse.class);
 
 			if (response != null && response.getProducts() != null) {
 				List<Product> productos = response.getProducts();
 				model.addAttribute("productos", productos);
+				model.addAttribute("currentPage", page);
+				model.addAttribute("totalPages", response.getTotalPages() / 48);
 			} else {
 				model.addAttribute("error", "No se encontraron productos");
 			}
@@ -84,30 +146,10 @@ public class AlimentoController {
 		} catch (Exception e) {
 			model.addAttribute("error", "Error inesperado: " + e.getMessage());
 		}
-		return "lista-alimentos";
-	}
 
-	@PostMapping("/filtrarPorCategoria")
-	public String filtrarAlimentosPorCategoria(@RequestParam("categoria") String categoriaSeleccionada, Model model) {
-		// String url =
-		// "https://world.openfoodfacts.net/api/v2/search?categories_tags_en=Orange
-		// Juice&nutrition_grades_tags=c";
-		String url = "https://world.openfoodfacts.net/api/v2/search?countries_tags_en=spain&page_size=48&categories_tags_en="
-				+ categoriaSeleccionada;
-		try {
-			ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
+		model.addAttribute("selectedCategoria", categoria);
+		model.addAttribute("selectedTienda", tienda);
 
-			if (response != null && response.getProducts() != null) {
-				List<Product> productos = response.getProducts();
-				model.addAttribute("productos", productos);
-			} else {
-				model.addAttribute("error", "No se encontraron productos");
-			}
-		} catch (HttpServerErrorException e) {
-			model.addAttribute("error", "Error del servidor al obtener los datos: " + e.getMessage());
-		} catch (Exception e) {
-			model.addAttribute("error", "Error inesperado: " + e.getMessage());
-		}
 		return "lista-alimentos";
 	}
 
