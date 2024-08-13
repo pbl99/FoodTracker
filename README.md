@@ -2,10 +2,9 @@
 
 Aplicación de Sistema de Gestión de Alimentos
 
-## Estado actual del proyecto
+## Partes principales del proyecto
 
-![d](https://github.com/user-attachments/assets/68fa6216-cd47-48bd-adf4-00702594a183)
-
+![imagenproyecto](https://github.com/user-attachments/assets/be83b29d-792f-47db-a37a-2f7d4cb18a32)
 
 ## Descripción
 
@@ -74,6 +73,11 @@ spring.datasource.username=tu_usuario
 spring.datasource.password=tu_contraseña
 spring.jpa.hibernate.ddl-auto=update
 ```
+## Modelo Relacional
+
+A continuación se muestra el modelo relacional de la base de datos utilizada en este proyecto:
+
+<img src="src/main/resources/static/images/modelorelacional.png" alt="Modelo Relacional" style="width: 700px;">
 
 ## APIs Utilizadas
 - **[OpenFoodFacts API](https://world.openfoodfacts.org):** Este proyecto utiliza la API de OpenFoodFacts para obtener información nutricional y detalles de los productos alimenticios. OpenFoodFacts es una base de datos abierta de productos alimenticios de todo el mundo.
