@@ -1,3 +1,4 @@
+<!--EL CODIGO DE CADA DIA ES BASTANTE REPETITIVO QUIZAS SE PUEDA METER EN UN FRAGMEN O HACER ALGO CON BUCLES -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -8,7 +9,6 @@
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/css/styles.css" rel="stylesheet" type="text/css">
 	<link href="/css/calendario.css" rel="stylesheet" type="text/css">
-	<link href="/css/calendario-alimentos.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -56,33 +56,44 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelLunes}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelLunes}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Lunes'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
+													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+													</form>
 												</div>
 											</div>
 										</a>
@@ -134,33 +145,44 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelMartes}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelMartes}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Martes'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
+													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+													</form>
 												</div>
 											</div>
 										</a>
@@ -214,33 +236,44 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelMiercoles}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelMiercoles}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Miércoles'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
+													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+													</form>
 												</div>
 											</div>
 										</a>
@@ -292,33 +325,44 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelJueves}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelJueves}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Jueves'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
+													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+													</form>
 												</div>
 											</div>
 										</a>
@@ -371,33 +415,44 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelViernes}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelViernes}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Viernes'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
+													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+													</form>
 												</div>
 											</div>
 										</a>
@@ -449,38 +504,42 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelSabado}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelSabado}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Sábado'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<!-- Botón o enlace de eliminación -->
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
 													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
-														<input type="hidden" name="codigoBarras"
-															th:value="${producto.code}" />
-														<input type="hidden" name="dia" th:value="${'Sábado'}" />
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
 														<button type="submit" class="btn btn-danger">Eliminar</button>
 													</form>
 												</div>
@@ -535,33 +594,44 @@
 						</div>
 						<!-- Imágenes de productos -->
 						<!-- Mostrar lista de productos si existe -->
-						<div th:if="${itemsModelDomingo}">
+						<div th:if="${itemsModel}">
 							<div class="container custom-container">
 								<div class="row">
-									<div class="col-md-2" th:each="producto : ${itemsModelDomingo}">
-										<a th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${producto.code})}">
+									<div class="col-md-2" th:each="entry : ${itemsModel}"
+										th:if="${entry.key.dia == 'Domingo'}">
+										<a
+											th:href="@{/analizadorAlimentos?codigoBarras={code}(code=${entry.value.code})}">
 											<div class="product-card mb-3">
 												<div class="product-card-body">
-													<img th:src="${producto.imageUrl}" class="img-fluid"
+													<img th:src="${entry.value.imageUrl}" class="img-fluid"
 														alt="Imagen del Producto"
 														onerror="this.onerror=null;this.src='/images/imgproductnotavailable.png';">
-													<p class="product-card-title" th:text="${producto.product_name}">
+													<p class="product-card-title" th:text="${entry.value.product_name}">
 													</p>
-													<img th:if="${producto.nutrition_grades == 'a'}"
+													<img th:if="${entry.value.nutrition_grades == 'a'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-a-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'b'}"
+													<img th:if="${entry.value.nutrition_grades == 'b'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-b-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'c'}"
+													<img th:if="${entry.value.nutrition_grades == 'c'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-c-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'd'}"
+													<img th:if="${entry.value.nutrition_grades == 'd'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-d-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
-													<img th:if="${producto.nutrition_grades == 'e'}"
+													<img th:if="${entry.value.nutrition_grades == 'e'}"
 														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 														class="nutri-score-img" alt="Nutri-Score">
+													<img th:unless="${entry.value.nutrition_grades == 'a' or entry.value.nutrition_grades == 'b' or entry.value.nutrition_grades == 'c' or entry.value.nutrition_grades == 'd' or entry.value.nutrition_grades == 'e'}"
+														src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+														class="nutri-score-img" alt="Nutri-Score">
+
+													<!-- Formulario para eliminar producto -->
+													<form th:action="@{/eliminarProducto}" method="post" class="mt-2">
+														<input type="hidden" name="itemId" th:value="${entry.key.id}" />
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+													</form>
 												</div>
 											</div>
 										</a>

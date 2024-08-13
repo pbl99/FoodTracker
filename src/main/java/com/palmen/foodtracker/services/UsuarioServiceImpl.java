@@ -1,5 +1,6 @@
 package com.palmen.foodtracker.services;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public void save(Usuario usuario) {
 		Rol rolPorDefecto = rolRepository.findByNombreRol("USER");
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		usuario.setCreateAt(LocalDate.now());
 
 		Set<Rol> roles = new HashSet<>();
 		roles.add(rolPorDefecto);

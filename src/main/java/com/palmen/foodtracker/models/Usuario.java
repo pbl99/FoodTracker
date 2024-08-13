@@ -1,6 +1,7 @@
 package com.palmen.foodtracker.models;
 
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,12 +15,16 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "nombre_usuario")
+	@Column(name = "nombre_usuario", unique = true)
 	private String nombreUsuario;
 
+	@Column(name = "email", unique = true)
 	private String email;
 
 	private String password;
+	
+	@Column(name = "create_at")
+	private LocalDate createAt;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuario_roles", // Nombre de la tabla intermedia
@@ -100,6 +105,14 @@ public class Usuario {
 
 	public void setListaCompraItems(Set<UsuarioListaCompraItem> listaCompraItems) {
 		this.listaCompraItems = listaCompraItems;
+	}
+
+	public LocalDate getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(LocalDate createAt) {
+		this.createAt = createAt;
 	}
 
 }

@@ -7,14 +7,6 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
-	<style>
-		.img-large {
-			max-width: 100%;
-			/* Asegura que la imagen no exceda el contenedor */
-			height: auto;
-			/* Mantiene la proporción de la imagen */
-		}
-	</style>
 </head>
 
 <body>
@@ -55,6 +47,9 @@
 					<img th:if="${product.nutrition_grades == 'e'}"
 						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
+					<img th:unless="${product.nutrition_grades == 'a' or product.nutrition_grades == 'b' or product.nutrition_grades == 'c' or product.nutrition_grades == 'd' or product.nutrition_grades == 'e'}"
+						src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+						height="60" width="60" class="nutri-score-img" alt="Nutri-Score">
 				</p>
 				<form th:action="@{/guardarFavorito}" method="post">
 					<input type="hidden" name="codigoBarras" th:value="${product.code}">
@@ -69,7 +64,7 @@
 					<input type="hidden" name="usuarioId" th:value="${usuarioId}">
 					<input type="hidden" name="codigoBarras" th:value="${product.code}">
 					<div class="form-group">
-						<label for="dia">Día:</label>
+						<label for="dia">Agregar al Calendario:</label>
 						<select id="dia" name="dia" class="form-control" required>
 							<option value="Lunes">Lunes</option>
 							<option value="Martes">Martes</option>

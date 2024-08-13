@@ -1,11 +1,9 @@
 package com.palmen.foodtracker.controllers;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -40,7 +38,14 @@ public class UsuarioController {
 	private IUsuarioListaCompraItemService usuarioListaCompraItemService;
 
 	@GetMapping("/miPerfil")
-	public String miPerfil() {
+	public String miPerfil(Model model, Authentication authentication) {
+		String username = authentication.getName();
+		Optional<Usuario> optionalUsuario = usuarioService.findByNombreUsuario(username);
+
+		if (optionalUsuario.isPresent()) {
+			Usuario usuario = optionalUsuario.get();
+			model.addAttribute("usuario", usuario);
+		}
 		return "mi-perfil";
 	}
 
@@ -53,11 +58,9 @@ public class UsuarioController {
 			Usuario usuario = optionalUsuario.get();
 			model.addAttribute("usuario", usuario);
 
-			// Obtener las listas de compra del usuario
 			List<UsuarioListaCompra> listasCompra = usuarioListaCompraService
 					.getListasCompraByUsuarioId(usuario.getId());
 
-			// Convertir listas de compra a un Map
 			Map<String, String> listasCompraMap = new HashMap<>();
 			for (UsuarioListaCompra listaCompra : listasCompra) {
 				listasCompraMap.put(listaCompra.getDia(), listaCompra.getLista());
@@ -65,21 +68,13 @@ public class UsuarioController {
 
 			model.addAttribute("listasCompra", listasCompraMap);
 
-			// Obtener los items de lista de compra del usuario
 			List<UsuarioListaCompraItem> itemsCompra = usuarioListaCompraItemService
 					.findAllByUsuarioId(usuario.getId());
-		
-
-			Set<Product> itemsModelLunes = new HashSet<>();
-			Set<Product> itemsModelMartes = new HashSet<>();
-			Set<Product> itemsModelMiercoles = new HashSet<>();
-			Set<Product> itemsModelJueves = new HashSet<>();
-			Set<Product> itemsModelViernes = new HashSet<>();
-			Set<Product> itemsModelSabado = new HashSet<>();
-			Set<Product> itemsModelDomingo = new HashSet<>();
 
 			if (!itemsCompra.isEmpty()) {
 				try {
+					Map<UsuarioListaCompraItem, Product> itemsModel = new HashMap<>();
+
 					for (UsuarioListaCompraItem usuarioCompraItem : itemsCompra) {
 						String url = "https://world.openfoodfacts.net/api/v2/product/"
 								+ usuarioCompraItem.getCodigoBarras();
@@ -87,41 +82,22 @@ public class UsuarioController {
 
 						if (response != null && response.getProduct() != null) {
 							Product product = response.getProduct();
-							if (usuarioCompraItem.getDia().equals("Lunes")) {
-								itemsModelLunes.add(product);
-							} else if (usuarioCompraItem.getDia().equals("Martes")) {
-								itemsModelMartes.add(product);
-							} else if (usuarioCompraItem.getDia().equals("Miércoles")) {
-								itemsModelMiercoles.add(product);
-							} else if (usuarioCompraItem.getDia().equals("Jueves")) {
-								itemsModelJueves.add(product);
-							} else if (usuarioCompraItem.getDia().equals("Viernes")) {
-								itemsModelViernes.add(product);
-							} else if (usuarioCompraItem.getDia().equals("Sábado")) {
-								itemsModelSabado.add(product);
-							} else if (usuarioCompraItem.getDia().equals("Domingo")) {
-								itemsModelDomingo.add(product);
-							}
+							itemsModel.put(usuarioCompraItem, product);
 						}
 					}
-					model.addAttribute("itemsModelLunes", itemsModelLunes);
-					model.addAttribute("itemsModelMartes", itemsModelMartes);
-					model.addAttribute("itemsModelMiercoles", itemsModelMiercoles);
-					model.addAttribute("itemsModelJueves", itemsModelJueves);
-					model.addAttribute("itemsModelViernes", itemsModelViernes);
-					model.addAttribute("itemsModelSabado", itemsModelSabado);
-					model.addAttribute("itemsModelDomingo", itemsModelDomingo);
+
+					model.addAttribute("itemsModel", itemsModel);
 				} catch (HttpServerErrorException e) {
 					model.addAttribute("error", "Error del servidor al obtener los datos: " + e.getMessage());
 				} catch (Exception e) {
 					model.addAttribute("error", "Error inesperado: " + e.getMessage());
+
 				}
+
 			}
 
-		} else {
-			return "redirect:/error";
 		}
-
 		return "mi-calendario";
 	}
+
 }

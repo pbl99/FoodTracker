@@ -19,8 +19,9 @@
 			<form action="/enviarCodigo" method="post" class="w-100 d-flex align-items-center">
 				<input type="text" id="codigoBarras" name="codigoBarras"
 					placeholder="Buscar producto por código de barras" required>
+				<!-- Esto añade el token CSRF automáticamente -->
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<button type="submit">Buscar</button>
-				<input type="hidden" />
 			</form>
 		</div>
 	</div>
@@ -29,7 +30,8 @@
 		<div class="container custom-container">
 			<div class="row">
 				<div class="col-md-2" th:each="favorito : ${productosFavoritos}">
-					<a th:href="@{/analizadorAlimentos?codigoBarras={codigoBarras}(codigoBarras=${favorito.product.code})}">
+					<a
+						th:href="@{/analizadorAlimentos?codigoBarras={codigoBarras}(codigoBarras=${favorito.product.code})}">
 						<div class="product-card mb-3">
 							<div class="product-card-body">
 								<img th:src="${favorito.product.image_front_small_url}" class="img-fluid"
@@ -50,6 +52,15 @@
 								<img th:if="${favorito.product.nutrition_grades == 'e'}"
 									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
 									class="nutri-score-img" alt="Nutri-Score">
+								<img th:unless="${favorito.product.nutrition_grades == 'a' or favorito.product.nutrition_grades == 'b' or favorito.product.nutrition_grades == 'c' or favorito.product.nutrition_grades == 'd' or favorito.product.nutrition_grades == 'e'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+
+								<!-- Formulario para eliminar producto -->
+								<form th:action="@{/eliminarProductoFavorito}" method="post" class="mt-2">
+									<input type="hidden" name="codigoBarras" th:value="${favorito.product.code}" />
+									<button type="submit" class="btn btn-danger">Eliminar</button>
+								</form>
 							</div>
 						</div>
 					</a>

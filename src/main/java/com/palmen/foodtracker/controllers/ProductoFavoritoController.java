@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-
 import com.palmen.foodtracker.models.ProductoFavorito;
 import com.palmen.foodtracker.models.Usuario;
 import com.palmen.foodtracker.models.api.Product;
@@ -38,7 +37,6 @@ public class ProductoFavoritoController {
 		// Obtener el nombre de usuario desde la autenticación
 		String nombreUsuario = authentication.getName();
 
-		// Buscar el usuario por nombre
 		Optional<Usuario> usuarioOpt = usuarioService.findByNombreUsuario(nombreUsuario);
 
 		if (usuarioOpt.isPresent()) {
@@ -84,7 +82,6 @@ public class ProductoFavoritoController {
 
 		String nombreUsuario = authentication.getName();
 
-		// Busca al usuario por su nombre
 		Optional<Usuario> usuarioOpt = usuarioService.findByNombreUsuario(nombreUsuario);
 
 		if (usuarioOpt.isPresent()) {
@@ -98,10 +95,23 @@ public class ProductoFavoritoController {
 			// Asocia el producto favorito al usuario
 			usuarioService.guardarProductoFavorito(usuario.getId(), codigoBarras);
 		} else {
-			// Manejar el caso donde el usuario no se encuentra
 			throw new RuntimeException("Usuario no encontrado");
 		}
 
-		return "productos-favoritos";
+		return "redirect:/productosFavoritos";
+	}
+
+	@PostMapping("/eliminarProductoFavorito")
+	public String eliminarProductoFavorito(@RequestParam String codigoBarras, Authentication authentication) {
+		String nombreUsuario = authentication.getName();
+
+		Optional<Usuario> usuarioOpt = usuarioService.findByNombreUsuario(nombreUsuario);
+
+		if (usuarioOpt.isPresent()) {
+			Usuario usuario = usuarioOpt.get();
+			productoFavoritoService.deleteFavoriteProduct(usuario.getId(), codigoBarras);
+
+		}
+		return "redirect:/productosFavoritos";
 	}
 }

@@ -8,21 +8,6 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
-	<style>
-		/* Estilo para centrar el contenido en el medio de la página */
-		.full-height-container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-height: 100vh;
-		}
-
-		.jumbotron {
-			width: 100%;
-			max-width: 800px;
-			padding: 30px;
-		}
-	</style>
 </head>
 
 <body>
@@ -33,20 +18,18 @@
 			<div class="row">
 				<div class="col-md-3 col-xs-12 col-sm-6 col-lg-3">
 					<div class="thumbnail text-center photo_view_postion_b">
-						<img src="https://gravatar.com/avatar/27205e5c51cb03f862138b22bcb5dc20f94a342e744ff6df1b8dc8af3c865109?s=180"
-							alt="Foto de perfil" class="img">
+						<img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Foto de perfil" class="img">
 					</div>
 				</div>
 				<div class="col-md-9 col-xs-12 col-sm-6 col-lg-9">
-					<div style="border-bottom:1px solid black">
-						<h2>John Doe</h2> <!-- Aquí puedes usar una variable Thymeleaf para el nombre del usuario -->
-					</div>
+
+					<h2 style="margin-left: 40px;" th:text="${usuario.nombreUsuario}"></h2>
+
 					<hr>
 					<ul class="details">
 						<li>
-							<p>Email: somerandom@email.com</p>
-							<p>Fecha Registro: 24/07/24</p>
-							<!-- Aquí puedes usar una variable Thymeleaf para el email del usuario -->
+							<p th:text="'Email: ' + ${usuario.email}"></p>
+							<p th:text="'Registrado desde: ' + ${usuario.createAt}"></p>
 						</li>
 					</ul>
 				</div>

@@ -41,7 +41,6 @@ public class UsuarioListaCompraController {
 		usuarioListaCompra.setDia(dia);
 		usuarioListaCompra.setLista(lista);
 
-		// Guardar la lista de compra
 		usuarioListaCompraService.save(usuarioListaCompra);
 
 		return "redirect:/miCalendario";
@@ -63,15 +62,38 @@ public class UsuarioListaCompraController {
 
 		return "redirect:/miCalendario";
 	}
-	
-	
-	@PostMapping("/eliminarProducto")
-	public String eliminarProducto() {
-		
+
+	@PostMapping("/agregarItem")
+	public String agregarItem(@RequestParam("usuarioId") Long usuarioId, @RequestParam("dia") String dia,
+			@RequestParam("codigoBarras") String codigoBarras) {
+		Usuario usuario = usuarioService.findById(usuarioId)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+		UsuarioListaCompraItem item = new UsuarioListaCompraItem();
+		item.setUsuario(usuario);
+		item.setDia(dia);
+		item.setCodigoBarras(codigoBarras);
+
+		usuarioListaCompraItemService.save(item);
+
 		return "redirect:/miCalendario";
 	}
 
-	
-	
-	
+	@PostMapping("/eliminarProducto")
+	public String eliminarProducto(@RequestParam("itemId") Long itemId, RedirectAttributes redirectAttributes) {
+		try {
+			// Obtener el ítem de la lista de compra por ID
+			UsuarioListaCompraItem item = usuarioListaCompraItemService.findById(itemId)
+					.orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
+
+			usuarioListaCompraItemService.delete(item);
+
+			redirectAttributes.addFlashAttribute("message", "Producto eliminado exitosamente.");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "Error al eliminar el producto: " + e.getMessage());
+		}
+
+		return "redirect:/miCalendario";
+	}
+
 }

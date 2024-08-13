@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,59 +16,42 @@ import org.springframework.web.client.RestTemplate;
 import com.palmen.foodtracker.models.Usuario;
 import com.palmen.foodtracker.models.api.Product;
 import com.palmen.foodtracker.models.api.ProductResponse;
-import com.palmen.foodtracker.repositories.IUsuarioRepository;
+import com.palmen.foodtracker.services.IUsuarioService;
 
 @Controller
 public class AlimentoController {
 
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	@Autowired
-	private IUsuarioRepository usuarioRepository;
+	private IUsuarioService usuarioService;
 
 	@GetMapping("/analizadorAlimentos")
-	public String analizadorAlimentos(@RequestParam("codigoBarras") String codigoBarras, Model model) {
-		// Obtener el usuario autenticado
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = null;
+	public String analizadorAlimentos(@RequestParam("codigoBarras") String codigoBarras, Model model,
+			Authentication authentication) {
 
-		if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			username = userDetails.getUsername();
+		if (authentication != null && authentication.isAuthenticated()) {
+			String nombreUsuario = authentication.getName();
+
+			Optional<Usuario> usuarioOpt = usuarioService.findByNombreUsuario(nombreUsuario);
+
+			if (usuarioOpt.isPresent()) {
+				Usuario usuario = usuarioOpt.get();
+				model.addAttribute("usuarioId", usuario.getId()); // Asegúrate de pasar solo el ID
+			}
 		}
+		// Llama a la API para obtener la información del producto
+		String url = "https://world.openfoodfacts.org/api/v2/product/" + codigoBarras + ".json";
+		ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
 
-		// Buscar el ID del usuario usando el nombre de usuario
-		if (username != null) {
-			Optional<Usuario> usuarioOpt = usuarioRepository.findByNombreUsuario(username); // Asegúrate de tener este método en tu
-				
-			Usuario usuario = new Usuario();
-			if(usuarioOpt.isPresent()) {
-				usuario = usuarioOpt.get();
-			}
-			
-			if (usuario != null) {
-				Long usuarioId = usuario.getId();
-				model.addAttribute("usuarioId", usuarioId);
-
-				String url = "https://world.openfoodfacts.org/api/v2/product/" + codigoBarras + ".json";
-				ProductResponse response = restTemplate.getForObject(url, ProductResponse.class);
-
-				if (response != null && response.getProduct() != null) {
-					model.addAttribute("product", response.getProduct());
-				} else {
-					model.addAttribute("error", "Producto no encontrado");
-				}
-
-				return "ver-alimentos";
-			} else {
-				model.addAttribute("error", "Usuario no encontrado");
-				return "error";
-			}
+		if (response != null && response.getProduct() != null) {
+			model.addAttribute("product", response.getProduct());
 		} else {
-			model.addAttribute("error", "Usuario no autenticado");
-			return "error";
+			model.addAttribute("error", "Producto no encontrado");
 		}
+
+		return "ver-alimentos";
 	}
 
 	@PostMapping("/enviarCodigo")

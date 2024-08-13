@@ -26,21 +26,19 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-				.requestMatchers("/about", "/registro", "/registrarUsuario", "/listarAlimentos","/enviarCodigo","/analizadorAlimentos", "/css/**", "/images/**")
-				.permitAll().anyRequest().authenticated())
+						.requestMatchers("/about", "/registro", "/registrarUsuario", "/listarAlimentos",
+								"/enviarCodigo", "/analizadorAlimentos", "/filtrarAlimentos", "/css/**", "/images/**")
+						.permitAll().anyRequest().authenticated())
 				.formLogin(formLogin -> formLogin.loginPage("/login").loginProcessingUrl("/login")
 						.usernameParameter("nombreUsuario").passwordParameter("password")
 						.defaultSuccessUrl("/listarAlimentos", true).permitAll())
-				.logout(logout -> logout
-					    .logoutUrl("/logout") 
-					    .logoutSuccessUrl("/about?logout") 
-					    .invalidateHttpSession(true) 
-					    .deleteCookies("JSESSIONID") 
-					    .permitAll())
-				.csrf(csrf -> csrf.ignoringRequestMatchers("/enviarCodigo", "/listarAlimentos")); // Ignorar CSRF para esta ruta de manera momentanea
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/about?logout")
+						.invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll());
+				//.csrf(csrf -> csrf.ignoringRequestMatchers("/enviarCodigo", "/listarAlimentos")); // Ignorar CSRF para
+																									// esta ruta de
+																									// manera momentanea
 		return http.build();
 	}
 

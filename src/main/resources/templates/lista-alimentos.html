@@ -8,32 +8,6 @@
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="/css/alimentos.css">
-	<style>
-		.pagination {
-			display: flex;
-			justify-content: center;
-			margin: 20px 0;
-		}
-
-		.pagination__link {
-			padding: 10px 15px;
-			margin: 0 5px;
-			border: 1px solid #ddd;
-			text-decoration: none;
-			color: #333;
-			border-radius: 4px;
-		}
-
-		.pagination__link--active {
-			background-color: #54D400;
-			color: #fff;
-		}
-
-		.pagination__link--disabled {
-			color: #ccc;
-			pointer-events: none;
-		}
-	</style>
 </head>
 
 <body>
@@ -45,8 +19,9 @@
 			<form action="/enviarCodigo" method="post" class="w-100 d-flex align-items-center">
 				<input type="text" id="codigoBarras" name="codigoBarras"
 					placeholder="Buscar producto por código de barras" required>
+				<!-- Esto añade el token CSRF automáticamente -->
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<button type="submit">Buscar</button>
-				<input type="hidden" />
 			</form>
 		</div>
 	</div>
@@ -64,6 +39,12 @@
 							<option value="fruits" th:selected="${selectedCategoria == 'fruits'}">Frutas</option>
 							<option value="vegetables" th:selected="${selectedCategoria == 'vegetables'}">Verduras
 							</option>
+							<option value="fishes" th:selected="${selectedCategoria == 'seafood'}">Pescados/Conservas
+							</option>
+							<option value="frozen-foods" th:selected="${selectedCategoria == 'frozen-foods'}">Congelados
+							</option>
+							<option value="meats" th:selected="${selectedCategoria == 'meats'}">Carnes/Embutidos
+							</option>
 							<option value="beverages" th:selected="${selectedCategoria == 'beverages'}">Bebidas</option>
 						</select>
 					</div>
@@ -74,6 +55,9 @@
 							<option value="mercadona" th:selected="${selectedTienda == 'mercadona'}">Mercadona</option>
 							<option value="carrefour" th:selected="${selectedTienda == 'carrefour'}">Carrefour</option>
 							<option value="lidl" th:selected="${selectedTienda == 'lidl'}">Lidl</option>
+							<option value="alcampo" th:selected="${selectedTienda == 'alcampo'}">AlCampo</option>
+							<option value="eroski" th:selected="${selectedTienda == 'eroski'}">Eroski</option>
+							<option value="dia" th:selected="${selectedTienda == 'dia'}">Dia</option>
 						</select>
 					</div>
 					<button type="submit" class="btn btn-primary mt-2">Filtrar</button>
@@ -107,6 +91,9 @@
 									class="nutri-score-img" alt="Nutri-Score">
 								<img th:if="${producto.nutrition_grades == 'e'}"
 									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-e-new-en.svg"
+									class="nutri-score-img" alt="Nutri-Score">
+								<img th:unless="${producto.nutrition_grades == 'a' or producto.nutrition_grades == 'b' or producto.nutrition_grades == 'c' or producto.nutrition_grades == 'd' or producto.nutrition_grades == 'e'}"
+									src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-unknown-new-en.svg"
 									class="nutri-score-img" alt="Nutri-Score">
 							</div>
 						</div>
